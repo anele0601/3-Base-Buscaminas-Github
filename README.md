@@ -1,4 +1,4 @@
-BUSCAMINAS: Elena I.Nofuentes Méndez
+BUSCAMINAS: Elena I.Nofuentes
 =========================
 
 En este programa se encuentra la base para el Buscaminas de Desarrollo de intefaces (DAM2).
