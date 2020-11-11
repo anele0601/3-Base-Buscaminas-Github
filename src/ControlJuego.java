@@ -66,7 +66,7 @@ public class ControlJuego {
 		int jInicial = j-1;
 		int jfinal = j+1;
 		int minas=0;
-
+		
 		if((iInicial>0 && jfinal>0) && (i<LADO_TABLERO && j<LADO_TABLERO)){
 			for(int vertical=iInicial; vertical <= iFinal ; vertical++){
 				for(int horizontal=jInicial; horizontal < jfinal;horizontal++){
