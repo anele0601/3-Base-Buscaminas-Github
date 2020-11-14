@@ -24,8 +24,8 @@ public class ControlJuego {
 
 		// Inicializamos una nueva partida
 		inicializarPartida();
+		depurarTablero();
 	}
-
 
 	/**
 	 * Método para generar un nuevo tablero de partida:
@@ -47,7 +47,7 @@ public class ControlJuego {
 				}
 			}
 			puntuacion = 0;
-			while (minas > -1) {
+			while (minas > 0) {
 				vertical = rd.nextInt(LADO_TABLERO - 1);
 				horizontal = rd.nextInt(LADO_TABLERO - 1);
 				if (tablero[vertical][horizontal] != -1) {
@@ -90,7 +90,7 @@ public class ControlJuego {
 
 		for (int vertical = iInicial; vertical <= iFinal; vertical++) {
 			for (int horizontal = jInicial; horizontal <= jfinal; horizontal++) {
-				if (vertical >= 0 && vertical < LADO_TABLERO && horizontal > 0 && horizontal < LADO_TABLERO) {
+				if (vertical >= 0 && vertical < LADO_TABLERO && horizontal >= 0 && horizontal < LADO_TABLERO) {
 					if (tablero[vertical][horizontal] == MINA) {
 						minas++;
 					}
@@ -110,12 +110,11 @@ public class ControlJuego {
 	 * @return : Verdadero si no ha explotado una mina. Falso en caso contrario.
 	 */
 	public boolean abrirCasilla(int i, int j) {
-		boolean resultado;
+		boolean resultado = true;
 		if (tablero[i][j] == MINA) {
 			resultado = false;
-		} else {
-			resultado = true;
 		}
+		puntuacion++;
 		return resultado;
 	}
 
@@ -171,17 +170,16 @@ public class ControlJuego {
 		return puntuacion;
 	}
 
-	/**
-	 * 
-	 * 
-	 */
-
 	public int[][] getTablero() {
 		return tablero;
 	}
 
 	public void setTablero(int[][] tablero) {
 		this.tablero = tablero;
+	}
+
+	public void setPuntuacion(int puntuacion) {
+		this.puntuacion = puntuacion;
 	}
 
 }

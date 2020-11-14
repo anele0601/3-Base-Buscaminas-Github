@@ -1,7 +1,5 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ResourceBundle.Control;
-
 import javax.swing.JButton;
 
 /**
@@ -38,13 +36,11 @@ public class ActionBoton implements ActionListener {
 				}
 			}
 		}
-		int valorCasilla = cJuego.getTablero()[fila][columna];
-
-		if (valorCasilla == cJuego.MINA) {
-			ventana.mostrarFinJuego(true);
-		} else {
+		boolean comprobar = false;
+		if (comprobar = cJuego.abrirCasilla(fila, columna)) {
 			ventana.mostrarNumMinasAlrededor(fila, columna);
+			ventana.actualizarPuntuacion();
 		}
-
+		ventana.mostrarFinJuego(comprobar);
 	}
 }
