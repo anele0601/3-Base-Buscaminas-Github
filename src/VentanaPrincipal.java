@@ -16,33 +16,40 @@ import javax.swing.SwingConstants;
 /**
  * Ventana principal del Buscaminas
  * 
- * @author {Rellenar por el alumno}
+ * @author Elena Nofuentes
+ * @since 13-11-2020
+ * @version 1.1
+ * @see ControlJuego {@link VentanaPrincipal#inicializar()}
+ * 
  */
 public class VentanaPrincipal {
-
+	/** Atributos de la clase */
 	// La ventana principal, en este caso, guarda todos los componentes:
-	JFrame ventana;
-	JPanel panelImagen;
-	JPanel panelEmpezar;
-	JPanel panelPuntuacion;
-	JPanel panelJuego;
+	private JFrame ventana;
+	private JPanel panelImagen;
+	private JPanel panelEmpezar;
+	private JPanel panelPuntuacion;
+	private JPanel panelJuego;
 
 	// Todos los botones se meten en un panel independiente.
 	// Hacemos esto para que podamos cambiar después los componentes por otros
-	JPanel[][] panelesJuego;
-	JButton[][] botonesJuego;
+	private JPanel[][] panelesJuego;
+	private JButton[][] botonesJuego;
 
+	private JButton botonEmpezar;
+	private JTextField pantallaPuntuacion;
+
+	/** Objetos necesarios */
 	// Correspondencia de colores para las minas:
 	Color correspondenciaColores[] = { Color.BLACK, Color.CYAN, Color.GREEN, Color.ORANGE, Color.RED, Color.RED,
 			Color.RED, Color.RED, Color.RED, Color.RED };
 
-	JButton botonEmpezar;
-	JTextField pantallaPuntuacion;
-
 	// LA VENTANA GUARDA UN CONTROL DE JUEGO:
 	ControlJuego juego;
 
-	// Constructor, marca el tamaño y el cierre del frame
+	/**
+	 * Constructor por defecto. Marca el tamaño y el cierre del frame
+	 */
 	public VentanaPrincipal() {
 		ventana = new JFrame();
 		ventana.setBounds(100, 100, 700, 500);
@@ -50,9 +57,12 @@ public class VentanaPrincipal {
 		juego = new ControlJuego();
 	}
 
-	// Inicializa todos los componentes del frame
+	/**
+	 * Inicializamos todos los componentes del JFrame. Definimos el
+	 * layout,incializamos los componentes, declaramos bordes y colocamos los
+	 * paneles y botones.
+	 */
 	public void inicializarComponentes() {
-
 		// Definimos el layout:
 		ventana.setLayout(new GridBagLayout());
 
@@ -110,7 +120,16 @@ public class VentanaPrincipal {
 		settings.gridwidth = 3;
 		settings.fill = GridBagConstraints.BOTH;
 		ventana.add(panelJuego, settings);
+		panelesyBotones();
+		// BotónEmpezar:
+		panelEmpezar.add(botonEmpezar);
+		panelPuntuacion.add(pantallaPuntuacion);
+	}
 
+	/**
+	 * Método para crear los paneles y botones del tablero.
+	 */
+	public void panelesyBotones() {
 		// Paneles
 		panelesJuego = new JPanel[10][10];
 		for (int i = 0; i < panelesJuego.length; i++) {
@@ -120,7 +139,6 @@ public class VentanaPrincipal {
 				panelJuego.add(panelesJuego[i][j]);
 			}
 		}
-
 		// Botones
 		botonesJuego = new JButton[10][10];
 		for (int i = 0; i < botonesJuego.length; i++) {
@@ -129,60 +147,37 @@ public class VentanaPrincipal {
 				panelesJuego[i][j].add(botonesJuego[i][j]);
 			}
 		}
-
-		// BotónEmpezar:
-		panelEmpezar.add(botonEmpezar);
-		panelPuntuacion.add(pantallaPuntuacion);
-
 	}
 
 	/**
 	 * Método que inicializa todos los lísteners que necesita inicialmente el
-	 * programa
+	 * programa.
+	 * 
+	 * {@link ActionBoton}
 	 */
 	public void inicializarListeners() {
-		// TODO
 		botonEmpezar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (juego.getPuntuacion() != 0) {
-					panelJuego.removeAll();
-					panelJuego.revalidate();
-					panelJuego.repaint();
-
-					// Paneles
-					panelesJuego = new JPanel[10][10];
-					for (int i = 0; i < panelesJuego.length; i++) {
-						for (int j = 0; j < panelesJuego[i].length; j++) {
-							panelesJuego[i][j] = new JPanel();
-							panelesJuego[i][j].setLayout(new GridLayout(1, 1));
-							panelJuego.add(panelesJuego[i][j]);
-						}
-					}
-
-					// Botones
-					botonesJuego = new JButton[10][10];
-					for (int i = 0; i < botonesJuego.length; i++) {
-						for (int j = 0; j < botonesJuego[i].length; j++) {
-							botonesJuego[i][j] = new JButton("-");
-							panelesJuego[i][j].add(botonesJuego[i][j]);
-						}
-					}
-					juego.setPuntuacion(0);
-					actualizarPuntuacion();
-					refrescarPantalla();
-				}
+				panelJuego.removeAll();
+				panelJuego.revalidate();
+				panelJuego.repaint();
+				panelesyBotones();
+				juego.setPuntuacion(0);
+				actualizarPuntuacion();
 				listenerBotones();
-
+				refrescarPantalla();
 			}
 		});
 	}
 
+	/**
+	 * Método para inicializar los listener de los botones del tablero.
+	 */
 	public void listenerBotones() {
-		// Botones
 		for (int l = 0; l < botonesJuego.length; l++) {
 			for (int m = 0; m < botonesJuego[l].length; m++) {
-				botonesJuego[l][m].addActionListener(new ActionBoton(this));
+				botonesJuego[l][m].addActionListener(new ActionBoton(this, l, m));
 			}
 		}
 	}
@@ -198,7 +193,6 @@ public class VentanaPrincipal {
 	 * @param j: posición horizontal de la celda.
 	 */
 	public void mostrarNumMinasAlrededor(int i, int j) {
-		// TODO
 		int minas = juego.getMinasAlrededor(i, j);
 		panelesJuego[i][j].removeAll();
 		JLabel jl = new JLabel(Integer.toString(minas));
@@ -209,19 +203,17 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Muestra una ventana que indica el fin del juego
+	 * Muestra una ventana que indica el fin del juego.
 	 * 
 	 * @param porExplosion : Un booleano que indica si es final del juego porque ha
 	 *                     explotado una mina (true) o bien porque hemos desactivado
 	 *                     todas (false)
 	 * @post : Todos los botones se desactivan excepto el de volver a iniciar el
 	 *       juego.
+	 * 
 	 */
 	public void mostrarFinJuego(boolean porExplosion) {
-		// Desactivamos lo botones
-		// Por ganar-puntuacion
 		if (juego.esFinJuego()) {
-			// SE HAN DESACTIVADO TODAS LAS MINAS
 			JOptionPane.showMessageDialog(ventana, "GANAR", "gano", 0);
 			for (int i = 0; i < juego.LADO_TABLERO; i++) {
 				for (int j = 0; j < juego.LADO_TABLERO; j++) {
@@ -231,7 +223,6 @@ public class VentanaPrincipal {
 
 		}
 		if (!porExplosion) {
-			// Por perder - pulsar mina
 			JOptionPane.showMessageDialog(ventana, "MINA", "Mina", 0);
 			for (int i = 0; i < juego.LADO_TABLERO; i++) {
 				for (int j = 0; j < juego.LADO_TABLERO; j++) {
@@ -246,7 +237,6 @@ public class VentanaPrincipal {
 	 * Método que muestra la puntuación por pantalla.
 	 */
 	public void actualizarPuntuacion() {
-		// TODO
 		pantallaPuntuacion.setText(Integer.toString(juego.getPuntuacion()));
 	}
 

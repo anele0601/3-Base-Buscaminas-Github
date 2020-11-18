@@ -3,7 +3,10 @@ import java.awt.EventQueue;
 /**
  * Clase principal del Buscaminas
  * 
- * @author Elena Isabel Nofuentes Mendez
+ * @author Elena Nofuentes
+ * @since 11-11-2020
+ * @version 1.0
+ * @see ControlJuego {@link VentanaPrincipal#inicializar()}
  *
  */
 public class Principal {

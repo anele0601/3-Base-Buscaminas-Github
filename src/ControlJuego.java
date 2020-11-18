@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -8,20 +7,24 @@ import java.util.Random;
  * partida
  * 
  * @author jesusredondogarcia
+ * @author Elena Nofuentes
+ * @since 13-11-2020
+ * @version 1.1
  *
  */
 public class ControlJuego {
-	final int MINA = -1;
-	final int MINAS_INICIALES = 20;
+	/** Atributos de la clase */
+	private final int MINA = -1;
+	private final int MINAS_INICIALES = 20;
 	final int LADO_TABLERO = 10;
 
 	private int[][] tablero;
 	private int puntuacion;
 
+	/** Constructor por defecto */
 	public ControlJuego() {
 		// Creamos el tablero:
 		tablero = new int[LADO_TABLERO][LADO_TABLERO];
-
 		// Inicializamos una nueva partida
 		inicializarPartida();
 		depurarTablero();
@@ -36,7 +39,7 @@ public class ControlJuego {
 	 *        guardan en el entero cuántas minas hay alrededor de la celda
 	 */
 	public void inicializarPartida() {
-		// TODO: Repartir minas e inicializar puntaci�n. Si hubiese un tablero anterior
+		// Repartir minas e inicializar puntación. Si hubiese un tablero anterior
 		// lo pongo todo a cero para inicializarlo.
 		int horizontal = 0, vertical = 0, minas = MINAS_INICIALES;
 		Random rd = new Random();
@@ -48,14 +51,14 @@ public class ControlJuego {
 			}
 			puntuacion = 0;
 			while (minas > 0) {
-				vertical = rd.nextInt(LADO_TABLERO - 1);
-				horizontal = rd.nextInt(LADO_TABLERO - 1);
+				vertical = rd.nextInt(LADO_TABLERO);
+				horizontal = rd.nextInt(LADO_TABLERO);
 				if (tablero[vertical][horizontal] != -1) {
 					tablero[vertical][horizontal] = MINA;
 					minas--;
 				}
 			}
-			// Al final del m�todo hay que guardar el n�mero de minas para las casillas que
+			// Al final del método hay que guardar el número de minas para las casillas que
 			// no son mina:
 			for (int i = 0; i < tablero.length; i++) {
 				for (int j = 0; j < tablero[i].length; j++) {
@@ -126,11 +129,7 @@ public class ControlJuego {
 	 *         minas.
 	 **/
 	public boolean esFinJuego() {
-		boolean termina = false;
-		if ((LADO_TABLERO * LADO_TABLERO) - MINAS_INICIALES == puntuacion) {
-			termina = true;
-		}
-		return termina;
+		return (LADO_TABLERO * LADO_TABLERO) - MINAS_INICIALES == puntuacion ? true : false;
 	}
 
 	/**
@@ -158,7 +157,7 @@ public class ControlJuego {
 	 * @return Un entero que representa el número de minas alrededor de la celda
 	 */
 	public int getMinasAlrededor(int i, int j) {
-		return tablero[i][j] = calculoMinasAdjuntas(i, j);
+		return calculoMinasAdjuntas(i, j);
 	}
 
 	/**
@@ -170,13 +169,9 @@ public class ControlJuego {
 		return puntuacion;
 	}
 
-	public int[][] getTablero() {
-		return tablero;
-	}
-
-	public void setTablero(int[][] tablero) {
-		this.tablero = tablero;
-	}
+	/**
+	 * Método que establece la puntuación
+	 */
 
 	public void setPuntuacion(int puntuacion) {
 		this.puntuacion = puntuacion;
