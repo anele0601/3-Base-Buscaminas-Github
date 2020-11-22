@@ -5,8 +5,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -57,10 +55,8 @@ public class VentanaPrincipal {
 	 * Imágenes mostradas en el botón de empezar Sacamos la ruta mediante una URL
 	 * para que se incluyan en el .jar
 	 */
-	URL urlImagenInicio = VentanaPrincipal.class.getClassLoader().getResource("caritafeliz.png");
-	URL urlImagenFin = VentanaPrincipal.class.getClassLoader().getResource("caritatriste.png");
-	ImageIcon imagenInicio = new ImageIcon(urlImagenInicio);
-	ImageIcon imagenFin = new ImageIcon(urlImagenFin);
+	ImageIcon imagenInicio = new ImageIcon(getClass().getResource("/Imagenes/caritafeliz.png"));
+	ImageIcon imagenFin = new ImageIcon(getClass().getResource("/Imagenes/caritatriste.png"));
 
 	/**
 	 * Constructor por defecto. Marca el tamaño y el cierre del frame
