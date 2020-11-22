@@ -101,7 +101,7 @@ public class ControlJuego {
 	}
 
 	/**
-	 * Método que nos permite
+	 * Método que nos permite comprobar si al pulsar una casilla hay una mina.
 	 * 
 	 * @pre : La casilla nunca debe haber sido abierta antes, no es controlado por
 	 *      el ControlJuego. Por lo tanto siempre sumaremos puntos
@@ -173,4 +173,14 @@ public class ControlJuego {
 	public void setPuntuacion(int puntuacion) {
 		this.puntuacion = puntuacion;
 	}
+
+	/**
+	 * Método que devuelve el tablero
+	 * 
+	 * @return Un array bidimensional de enteros
+	 */
+	public int[][] getTablero() {
+		return tablero;
+	}
+
 }

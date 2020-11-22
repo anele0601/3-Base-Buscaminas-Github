@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -45,22 +47,27 @@ public class VentanaPrincipal {
 
 	/** Objetos necesarios */
 	// Correspondencia de colores para las minas:
-	Color correspondenciaColores[] = { Color.BLACK, Color.CYAN, Color.GREEN, Color.ORANGE, Color.RED, Color.RED,
+	Color correspondenciaColores[] = { Color.BLACK, Color.GREEN, Color.GRAY, Color.ORANGE, Color.RED, Color.RED,
 			Color.RED, Color.RED, Color.RED, Color.RED };
 
 	// LA VENTANA GUARDA UN CONTROL DE JUEGO:
 	ControlJuego juego;
 
-	/** Imágenes mostradas en el botón de empezar */
-	ImageIcon imagenInicio = new ImageIcon("Imagenes/caritafeliz.png");
-	ImageIcon imagenFin = new ImageIcon("Imagenes/caritatriste.png");
+	/**
+	 * Imágenes mostradas en el botón de empezar Sacamos la ruta mediante una URL
+	 * para que se incluyan en el .jar
+	 */
+	URL urlImagenInicio = VentanaPrincipal.class.getClassLoader().getResource("caritafeliz.png");
+	URL urlImagenFin = VentanaPrincipal.class.getClassLoader().getResource("caritatriste.png");
+	ImageIcon imagenInicio = new ImageIcon(urlImagenInicio);
+	ImageIcon imagenFin = new ImageIcon(urlImagenFin);
 
 	/**
 	 * Constructor por defecto. Marca el tamaño y el cierre del frame
 	 */
 	public VentanaPrincipal() {
 		ventana = new JFrame("Buscaminas");
-		ventana.setBounds(100, 100, 500, 600);
+		ventana.setBounds(100, 100, 600, 700);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		juego = new ControlJuego();
 		cronometro = new JCronometro();
@@ -94,7 +101,7 @@ public class VentanaPrincipal {
 		pantallaPuntuacion.setFont(new Font("Tahoma", 1, 18));
 
 		// Bordes y colores:
-		panelImagen.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+		panelImagen.setBorder(BorderFactory.createTitledBorder("Cronómetro"));
 		panelEmpezar.setBorder(BorderFactory.createTitledBorder("Empezar"));
 		panelPuntuacion.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
 		panelJuego.setBorder(BorderFactory.createTitledBorder("Juego"));
@@ -251,6 +258,12 @@ public class VentanaPrincipal {
 			for (int i = 0; i < juego.LADO_TABLERO; i++) {
 				for (int j = 0; j < juego.LADO_TABLERO; j++) {
 					botonesJuego[i][j].setEnabled(false);
+					// Al terminar la partida, buscamos las minas en el tablero y la mostramos
+					// poniendo
+					// el fondo del botón en rojo.
+					if (juego.getTablero()[i][j] == -1) {
+						botonesJuego[i][j].setBackground(Color.RED);
+					}
 				}
 			}
 		}
