@@ -30,6 +30,7 @@ public class VentanaPrincipal {
 	private JPanel panelEmpezar;
 	private JPanel panelPuntuacion;
 	private JPanel panelJuego;
+	private JCronometro cronometro;
 
 	// Todos los botones se meten en un panel independiente.
 	// Hacemos esto para que podamos cambiar después los componentes por otros
@@ -55,6 +56,7 @@ public class VentanaPrincipal {
 		ventana.setBounds(100, 100, 700, 500);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		juego = new ControlJuego();
+		cronometro = new JCronometro();
 	}
 
 	/**
@@ -68,6 +70,7 @@ public class VentanaPrincipal {
 
 		// Inicializamos componentes
 		panelImagen = new JPanel();
+		panelImagen.add(cronometro);
 		panelEmpezar = new JPanel();
 		panelEmpezar.setLayout(new GridLayout(1, 1));
 		panelPuntuacion = new JPanel();
@@ -165,7 +168,10 @@ public class VentanaPrincipal {
 				panelesyBotones();
 				juego.setPuntuacion(0);
 				actualizarPuntuacion();
+				juego.inicializarPartida();
+				juego.depurarTablero();
 				listenerBotones();
+				cronometro.comenzar();
 				refrescarPantalla();
 			}
 		});
@@ -214,22 +220,27 @@ public class VentanaPrincipal {
 	 */
 	public void mostrarFinJuego(boolean porExplosion) {
 		if (juego.esFinJuego()) {
-			JOptionPane.showMessageDialog(ventana, "GANAR", "gano", 0);
+			cronometro.parar();
+			juego.setPuntuacion(100);
+			actualizarPuntuacion();
+			JOptionPane.showMessageDialog(ventana, "¡Ha ganado! \n No ha explotado ninguna mina", "Partida terminada",
+					JOptionPane.INFORMATION_MESSAGE);
 			for (int i = 0; i < juego.LADO_TABLERO; i++) {
 				for (int j = 0; j < juego.LADO_TABLERO; j++) {
 					botonesJuego[i][j].setEnabled(false);
 				}
 			}
-
 		}
 		if (!porExplosion) {
-			JOptionPane.showMessageDialog(ventana, "MINA", "Mina", 0);
+			cronometro.parar();
+			JOptionPane.showMessageDialog(ventana,
+					"¡Ha explotado una mina! \n Puntuación : " + (juego.getPuntuacion() - 1), "Partida terminada",
+					JOptionPane.INFORMATION_MESSAGE);
 			for (int i = 0; i < juego.LADO_TABLERO; i++) {
 				for (int j = 0; j < juego.LADO_TABLERO; j++) {
 					botonesJuego[i][j].setEnabled(false);
 				}
 			}
-
 		}
 	}
 
