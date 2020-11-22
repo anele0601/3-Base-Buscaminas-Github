@@ -1,7 +1,7 @@
 import java.awt.EventQueue;
 
 /**
- * Clase principal del Buscaminas
+ * Clase principal del Buscaminas. Inicia el proceso.
  * 
  * @author Elena Nofuentes
  * @since 11-11-2020

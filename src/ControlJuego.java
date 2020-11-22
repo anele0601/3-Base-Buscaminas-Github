@@ -27,7 +27,6 @@ public class ControlJuego {
 		tablero = new int[LADO_TABLERO][LADO_TABLERO];
 		// Inicializamos una nueva partida
 		inicializarPartida();
-		depurarTablero();
 	}
 
 	/**
@@ -44,32 +43,30 @@ public class ControlJuego {
 		int horizontal = 0, vertical = 0, minas = MINAS_INICIALES;
 		Random rd = new Random();
 		if (tablero != null) {
-			for (int l = 0; l < tablero.length; l++) {
-				for (int m = 0; m < tablero[l].length; m++) {
-					tablero[l][m] = 0;
-				}
-			}
-			puntuacion = 0;
-			while (minas > 0) {
-				vertical = rd.nextInt(LADO_TABLERO);
-				horizontal = rd.nextInt(LADO_TABLERO);
-				if (tablero[vertical][horizontal] != -1) {
-					tablero[vertical][horizontal] = MINA;
-					minas--;
-				}
-			}
-			// Al final del método hay que guardar el número de minas para las casillas que
-			// no son mina:
-			for (int i = 0; i < tablero.length; i++) {
-				for (int j = 0; j < tablero[i].length; j++) {
-					if (tablero[i][j] != MINA) {
-						tablero[i][j] = calculoMinasAdjuntas(i, j);
-					}
-				}
-			}
-		} else {
 			tablero = new int[LADO_TABLERO][LADO_TABLERO];
-			inicializarPartida();
+		}
+		for (int l = 0; l < tablero.length; l++) {
+			for (int m = 0; m < tablero[l].length; m++) {
+				tablero[l][m] = 0;
+			}
+		}
+		puntuacion = 0;
+		while (minas > 0) {
+			vertical = rd.nextInt(LADO_TABLERO);
+			horizontal = rd.nextInt(LADO_TABLERO);
+			if (tablero[vertical][horizontal] != -1) {
+				tablero[vertical][horizontal] = MINA;
+				minas--;
+			}
+		}
+		// Al final del método hay que guardar el número de minas para las casillas que
+		// no son mina:
+		for (int i = 0; i < tablero.length; i++) {
+			for (int j = 0; j < tablero[i].length; j++) {
+				if (tablero[i][j] != MINA) {
+					tablero[i][j] = calculoMinasAdjuntas(i, j);
+				}
+			}
 		}
 	}
 
@@ -176,5 +173,4 @@ public class ControlJuego {
 	public void setPuntuacion(int puntuacion) {
 		this.puntuacion = puntuacion;
 	}
-
 }

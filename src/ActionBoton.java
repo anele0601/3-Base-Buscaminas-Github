@@ -14,6 +14,7 @@ import java.awt.event.ActionListener;
  * @see ControlJuego
  **
  */
+
 public class ActionBoton implements ActionListener {
 	/** Atributos de la clase */
 	private VentanaPrincipal ventana;

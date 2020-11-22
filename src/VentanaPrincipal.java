@@ -1,10 +1,12 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,7 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 /**
- * Ventana principal del Buscaminas
+ * Ventana principal del Buscaminas, en ella se crean y inicializan todos los
+ * componentes. También se controla el número de minas y el fin de juego.
  * 
  * @author Elena Nofuentes
  * @since 13-11-2020
@@ -48,12 +51,16 @@ public class VentanaPrincipal {
 	// LA VENTANA GUARDA UN CONTROL DE JUEGO:
 	ControlJuego juego;
 
+	/** Imágenes mostradas en el botón de empezar */
+	ImageIcon imagenInicio = new ImageIcon("Imagenes/caritafeliz.png");
+	ImageIcon imagenFin = new ImageIcon("Imagenes/caritatriste.png");
+
 	/**
 	 * Constructor por defecto. Marca el tamaño y el cierre del frame
 	 */
 	public VentanaPrincipal() {
-		ventana = new JFrame();
-		ventana.setBounds(100, 100, 700, 500);
+		ventana = new JFrame("Buscaminas");
+		ventana.setBounds(100, 100, 500, 600);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		juego = new ControlJuego();
 		cronometro = new JCronometro();
@@ -77,11 +84,14 @@ public class VentanaPrincipal {
 		panelPuntuacion.setLayout(new GridLayout(1, 1));
 		panelJuego = new JPanel();
 		panelJuego.setLayout(new GridLayout(10, 10));
-
-		botonEmpezar = new JButton("Go!");
+		// Ponemos la imagen de inicio al crear el boton
+		botonEmpezar = new JButton(imagenInicio);
+		botonEmpezar.setFocusPainted(false);
 		pantallaPuntuacion = new JTextField("0");
 		pantallaPuntuacion.setEditable(false);
 		pantallaPuntuacion.setHorizontalAlignment(SwingConstants.CENTER);
+		// Formato del texto
+		pantallaPuntuacion.setFont(new Font("Tahoma", 1, 18));
 
 		// Bordes y colores:
 		panelImagen.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
@@ -146,7 +156,7 @@ public class VentanaPrincipal {
 		botonesJuego = new JButton[10][10];
 		for (int i = 0; i < botonesJuego.length; i++) {
 			for (int j = 0; j < botonesJuego[i].length; j++) {
-				botonesJuego[i][j] = new JButton("-");
+				botonesJuego[i][j] = new JButton("");
 				panelesJuego[i][j].add(botonesJuego[i][j]);
 			}
 		}
@@ -166,6 +176,7 @@ public class VentanaPrincipal {
 				panelJuego.revalidate();
 				panelJuego.repaint();
 				panelesyBotones();
+				botonEmpezar.setIcon(imagenInicio);
 				juego.setPuntuacion(0);
 				actualizarPuntuacion();
 				juego.inicializarPartida();
@@ -233,9 +244,10 @@ public class VentanaPrincipal {
 		}
 		if (!porExplosion) {
 			cronometro.parar();
+			botonEmpezar.setIcon(imagenFin);
 			JOptionPane.showMessageDialog(ventana,
-					"¡Ha explotado una mina! \n Puntuación : " + (juego.getPuntuacion() - 1), "Partida terminada",
-					JOptionPane.INFORMATION_MESSAGE);
+					"¡Ha explotado una mina! \nFin de la partida. \nPuntuación : " + (juego.getPuntuacion() - 1),
+					"Partida terminada", JOptionPane.INFORMATION_MESSAGE);
 			for (int i = 0; i < juego.LADO_TABLERO; i++) {
 				for (int j = 0; j < juego.LADO_TABLERO; j++) {
 					botonesJuego[i][j].setEnabled(false);

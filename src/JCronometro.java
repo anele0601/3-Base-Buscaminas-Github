@@ -12,7 +12,6 @@ import javax.swing.SwingConstants;
  * @since 21-11-2020
  * @version 1.0
  * @see VentanaPrincipal
- *
  */
 
 public class JCronometro extends JPanel implements Runnable {
@@ -34,7 +33,7 @@ public class JCronometro extends JPanel implements Runnable {
         contador.setHorizontalAlignment(SwingConstants.CENTER);
         this.setLayout(new GridBagLayout());
         GridBagConstraints settings = new GridBagConstraints();
-        settings.insets = new Insets(10, 0, 10, 0);
+        settings.insets = new Insets(40, 0, 20, 0);
         this.add(contador, settings);
     }
 
@@ -42,22 +41,19 @@ public class JCronometro extends JPanel implements Runnable {
      * Método que incia la cuenta del cronometro.
      */
     public void comenzar() {
-        if (hilo == null) {
-            iniciado = true;
-            contador.setText("00:00");
-            tiempoTranscurrido = 0;
-            hilo = new Thread(this);
-            hilo.start();
-        }
+        iniciado = true;
+        contador.setText("00:00");
+        tiempoTranscurrido = 0;
+        hilo = new Thread(this);
+        hilo.start();
     }
 
     /**
      * Mëtodo que para la cuenta del cronometro
      */
     public void parar() {
-        if (hilo != null) {
-            iniciado = false;
-        }
+        iniciado = false;
+
     }
 
     /**
@@ -108,6 +104,5 @@ public class JCronometro extends JPanel implements Runnable {
                 e.printStackTrace();
             }
         }
-        hilo = null;
     }
 }
