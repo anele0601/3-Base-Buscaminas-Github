@@ -42,9 +42,6 @@ public class ControlJuego {
 		// lo pongo todo a cero para inicializarlo.
 		int horizontal = 0, vertical = 0, minas = MINAS_INICIALES;
 		Random rd = new Random();
-		if (tablero != null) {
-			tablero = new int[LADO_TABLERO][LADO_TABLERO];
-		}
 		for (int l = 0; l < tablero.length; l++) {
 			for (int m = 0; m < tablero[l].length; m++) {
 				tablero[l][m] = 0;
